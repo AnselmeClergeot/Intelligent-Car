@@ -11,23 +11,26 @@ class Car :
 		self.x, self.y = 400, 350
 		self.radius = 10
 		self.angle = 0
-		self.turnSpeed = 1.5
+		self.turnSpeed = 2
 		self.curSpeed = 0
 		self.acceleration = 0.2
 		self.deceleration = 0.1
 		self.speedLoss = 0.05
 		self.maxSpeed = 5
+		self.sensorsNb = 3
+		self.visionAngle = 100
 
-		self.ray1 = Raycast(self, -30)
-		self.ray2 = Raycast(self, 0)
-		self.ray3 = Raycast(self, 30)
+		self.sensors = []
+
+		for angle in xrange(-self.visionAngle/2, self.visionAngle/2 + 1, self.visionAngle / (self.sensorsNb - 1)) :
+			print(angle)
+			self.sensors.append(Raycast(self, angle))
 
 	def draw(self, window) :
 		pygame.draw.circle(window, pygame.Color("white"), (int(self.x), int(self.y)), self.radius)
 		
-		self.ray1.draw(window)
-		self.ray2.draw(window)
-		self.ray3.draw(window)
+		for ray in self.sensors :
+			ray.draw(window)
 
 	def turn(self, direction) :
 		

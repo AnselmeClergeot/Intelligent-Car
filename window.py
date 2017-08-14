@@ -21,11 +21,11 @@ while opened :
 
 		if keys[K_LEFT] :
 			multiplat.turn("left")
-		elif keys[K_RIGHT] :
+		if keys[K_RIGHT] :
 			multiplat.turn("right")
 		if keys[K_UP] :
 			multiplat.accelerate()
-		elif keys[K_DOWN] :
+		if keys[K_DOWN] :
 			multiplat.decelerate()
 
 	multiplat.update()

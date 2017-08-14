@@ -9,7 +9,7 @@ class Raycast :
 
 		self.car = car
 		self.relativeAngle = relativeAngle
-		self.maxLength = 1000
+		self.maxLength = 500
 
 	def draw(self, window) :
 		
@@ -24,4 +24,4 @@ class Raycast :
 			curX += dirX
 			curY += dirY
 			
-			pygame.draw.rect(window, pygame.Color("white"), (curX, curY, 1, 1))
+			pygame.draw.rect(window, pygame.Color("blue"), (curX, curY, 1, 1))
