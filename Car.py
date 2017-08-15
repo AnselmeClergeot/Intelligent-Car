@@ -3,6 +3,7 @@
 import pygame
 from trigonometry import *
 from Raycast import *
+from IADriver import *
 
 class Car :
 	
@@ -18,7 +19,7 @@ class Car :
 		self.speedLoss = 0.005
 		self.maxSpeed = 5
 		self.sensorsNb = 3
-		self.visionAngle = 100
+		self.visionAngle = 90
 
 		self.lastFrame = 0
 		self.elapsed = 0
@@ -30,6 +31,11 @@ class Car :
 
 		for angle in xrange(-self.visionAngle/2, self.visionAngle/2 + 1, self.visionAngle / (self.sensorsNb - 1)) :
 			self.sensors.append(Raycast(self, angle))
+		
+		self.ia = IADriver(self)
+
+	def driveSelf(self) :
+		self.ia.driveSelf()
 
 	def draw(self, window) :
 		pygame.draw.circle(window, pygame.Color("white"), (int(self.x), int(self.y)), self.radius)
@@ -106,3 +112,6 @@ class Car :
 			self.x += xSpeed
 			self.y += ySpeed
 			self.loseSpeed()
+
+	def learn(self) :
+		self.ia.learn()
