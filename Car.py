@@ -6,7 +6,7 @@ from Raycast import *
 
 class Car :
 	
-	def __init__(self) :
+	def __init__(self, environment) :
 		
 		self.x, self.y = 400, 350
 		self.radius = 10
@@ -19,6 +19,8 @@ class Car :
 		self.maxSpeed = 8
 		self.sensorsNb = 3
 		self.visionAngle = 100
+
+		self.environment = environment
 
 		self.sensors = []
 
@@ -79,7 +81,24 @@ class Car :
 			self.curSpeed = 0
 
 	def update(self) :
-		self.x += getDirection(self.angle)[0] * self.curSpeed
-		self.y += getDirection(self.angle)[1] * self.curSpeed
+		
+		xSpeed = getDirection(self.angle)[0] * self.curSpeed
+		ySpeed = getDirection(self.angle)[1] * self.curSpeed
+		
+		collide = False
 
-		self.loseSpeed()
+		for obstacle in self.environment.objects :
+			if distance(self.x + xSpeed, self.y + ySpeed, obstacle[0], obstacle[1]) < self.environment.objectWidth/2 + self.radius :
+				collide = True
+				break
+
+		if collide :
+			self.curSpeed = 0
+
+		else :
+			self.x += xSpeed
+			self.y += ySpeed
+			self.loseSpeed()
+
+		print(collide)
+
