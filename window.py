@@ -13,11 +13,16 @@ opened = True
 
 environment = Environment()
 multiplat = Car(environment)
+tutorial = pygame.image.load("tutorial.png").convert()
 
 while opened :
 	for event in pygame.event.get() :
 		if event.type == QUIT :
 			opened = False
+		elif event.type == KEYDOWN :
+			if event.key == K_r :
+				environment.reset()	
+
 	keys = pygame.key.get_pressed()
 
 	if keys[K_LEFT] :
@@ -38,5 +43,6 @@ while opened :
 
 	environment.draw(window)
 	multiplat.draw(window)
+	window.blit(tutorial, (0, 0))
 
 	pygame.display.flip()

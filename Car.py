@@ -14,9 +14,9 @@ class Car :
 		self.turnSpeed = 2
 		self.curSpeed = 0
 		self.acceleration = 0.1
-		self.deceleration = 0.07
-		self.speedLoss = 0.02
-		self.maxSpeed = 8
+		self.deceleration = 0.05
+		self.speedLoss = 0.005
+		self.maxSpeed = 5
 		self.sensorsNb = 3
 		self.visionAngle = 100
 
@@ -75,13 +75,12 @@ class Car :
 
 		self.curSpeed += zeroSpeedDir * self.speedLoss
 
-		epsilon = 0.05
+		epsilon = 0.01
 
 		if math.fabs(self.curSpeed) < epsilon :
 			self.curSpeed = 0
 
 	def update(self) :
-		
 		xSpeed = getDirection(self.angle)[0] * self.curSpeed
 		ySpeed = getDirection(self.angle)[1] * self.curSpeed
 		
@@ -100,5 +99,4 @@ class Car :
 			self.y += ySpeed
 			self.loseSpeed()
 
-		print(collide)
-
+				
