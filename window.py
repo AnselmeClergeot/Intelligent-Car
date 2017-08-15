@@ -17,16 +17,16 @@ while opened :
 		if event.type == QUIT :
 			opened = False
 
-		keys = pygame.key.get_pressed()
+	keys = pygame.key.get_pressed()
 
-		if keys[K_LEFT] :
-			multiplat.turn("left")
-		if keys[K_RIGHT] :
-			multiplat.turn("right")
-		if keys[K_UP] :
-			multiplat.accelerate()
-		if keys[K_DOWN] :
-			multiplat.decelerate()
+	if keys[K_LEFT] :
+		multiplat.turn("left")
+	if keys[K_RIGHT] :
+		multiplat.turn("right")
+	if keys[K_UP] :
+		multiplat.accelerate()
+	if keys[K_DOWN] :
+		multiplat.decelerate()
 
 	multiplat.update()
 

@@ -13,17 +13,16 @@ class Car :
 		self.angle = 0
 		self.turnSpeed = 2
 		self.curSpeed = 0
-		self.acceleration = 0.2
-		self.deceleration = 0.1
-		self.speedLoss = 0.05
-		self.maxSpeed = 5
+		self.acceleration = 0.1
+		self.deceleration = 0.07
+		self.speedLoss = 0.02
+		self.maxSpeed = 8
 		self.sensorsNb = 3
 		self.visionAngle = 100
 
 		self.sensors = []
 
 		for angle in xrange(-self.visionAngle/2, self.visionAngle/2 + 1, self.visionAngle / (self.sensorsNb - 1)) :
-			print(angle)
 			self.sensors.append(Raycast(self, angle))
 
 	def draw(self, window) :
@@ -55,6 +54,7 @@ class Car :
 
 	def decelerate(self) :
 		self.curSpeed -= self.deceleration
+		
 		self.checkSpeed()	
 
 	def checkSpeed(self) :
@@ -72,6 +72,11 @@ class Car :
 			zeroSpeedDir = 1
 
 		self.curSpeed += zeroSpeedDir * self.speedLoss
+
+		epsilon = 0.05
+
+		if math.fabs(self.curSpeed) < epsilon :
+			self.curSpeed = 0
 
 	def update(self) :
 		self.x += getDirection(self.angle)[0] * self.curSpeed
