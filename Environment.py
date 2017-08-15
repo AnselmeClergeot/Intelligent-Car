@@ -5,7 +5,7 @@ import pygame
 class Environment :
 	
 	def __init__(self) :
-		self.objectWidth = 40
+		self.objectWidth = 20
 		self.objectColor = pygame.Color("green")
 
 		self.objects = []
