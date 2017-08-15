@@ -20,6 +20,10 @@ class Car :
 		self.sensorsNb = 3
 		self.visionAngle = 100
 
+		self.lastFrame = 0
+		self.elapsed = 0
+		self.timeCoeff = 0.1 #Updating movements in respect to elapsed time since last frame. Coefficient is to adjust movement speeds without having to change them.
+
 		self.environment = environment
 
 		self.sensors = []
@@ -31,7 +35,7 @@ class Car :
 		pygame.draw.circle(window, pygame.Color("white"), (int(self.x), int(self.y)), self.radius)
 		
 		for ray in self.sensors :
-			ray.draw(window)
+			ray.updateAndDraw(window)
 
 	def turn(self, direction) :
 		
@@ -44,18 +48,18 @@ class Car :
 			return
 
 		if direction == "left" :
-			self.angle -= self.turnSpeed
+			self.angle -= self.turnSpeed * self.elapsed * self.timeCoeff
 		else :
-			self.angle += self.turnSpeed
+			self.angle += self.turnSpeed * self.elapsed * self.timeCoeff
 
 		self.angle %= 360
 
 	def accelerate(self) :
-		self.curSpeed += self.acceleration
+		self.curSpeed += self.acceleration * self.elapsed * self.timeCoeff
 		self.checkSpeed()
 
 	def decelerate(self) :
-		self.curSpeed -= self.deceleration
+		self.curSpeed -= self.deceleration * self.elapsed * self.timeCoeff
 		
 		self.checkSpeed()	
 
@@ -73,7 +77,7 @@ class Car :
 		else :
 			zeroSpeedDir = 1
 
-		self.curSpeed += zeroSpeedDir * self.speedLoss
+		self.curSpeed += zeroSpeedDir * self.speedLoss * self.elapsed * self.timeCoeff
 
 		epsilon = 0.01
 
@@ -81,8 +85,12 @@ class Car :
 			self.curSpeed = 0
 
 	def update(self) :
-		xSpeed = getDirection(self.angle)[0] * self.curSpeed
-		ySpeed = getDirection(self.angle)[1] * self.curSpeed
+
+		self.elapsed = pygame.time.get_ticks() - self.lastFrame
+		self.lastFrame = pygame.time.get_ticks()
+
+		xSpeed = getDirection(self.angle)[0] * self.curSpeed * self.elapsed * self.timeCoeff
+		ySpeed = getDirection(self.angle)[1] * self.curSpeed * self.elapsed * self.timeCoeff
 		
 		collide = False
 
@@ -98,5 +106,3 @@ class Car :
 			self.x += xSpeed
 			self.y += ySpeed
 			self.loseSpeed()
-
-				
