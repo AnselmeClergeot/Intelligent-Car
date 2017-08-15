@@ -10,20 +10,12 @@ class Car :
 	def __init__(self, environment) :
 		
 		self.x, self.y = 400, 350
-		self.radius = 10
+		self.radius = 5
 		self.angle = 0
-		self.turnSpeed = 2
-		self.curSpeed = 0
-		self.acceleration = 0.1
-		self.deceleration = 0.05
-		self.speedLoss = 0.005
-		self.maxSpeed = 5
-		self.sensorsNb = 3
-		self.visionAngle = 90
-
-		self.lastFrame = 0
-		self.elapsed = 0
-		self.timeCoeff = 0.1 #Updating movements in respect to elapsed time since last frame. Coefficient is to adjust movement speeds without having to change them.
+		self.turnSpeed = 2.5
+		self.speed = 7
+		self.sensorsNb = 5
+		self.visionAngle = 150
 
 		self.environment = environment
 
@@ -44,74 +36,27 @@ class Car :
 			ray.updateAndDraw(window)
 
 	def turn(self, direction) :
-		
-		epsilon = 0.1
-
-		if math.fabs(self.curSpeed) < epsilon :
-			return
-
-		if self.curSpeed == 0 :
-			return
-
 		if direction == "left" :
-			self.angle -= self.turnSpeed * self.elapsed * self.timeCoeff
+			self.angle -= self.turnSpeed
 		else :
-			self.angle += self.turnSpeed * self.elapsed * self.timeCoeff
+			self.angle += self.turnSpeed
 
 		self.angle %= 360
 
-	def accelerate(self) :
-		self.curSpeed += self.acceleration * self.elapsed * self.timeCoeff
-		self.checkSpeed()
+	def go(self, direction) :
 
-	def decelerate(self) :
-		self.curSpeed -= self.deceleration * self.elapsed * self.timeCoeff
-		
-		self.checkSpeed()	
+		xDir = self.speed * getDirection(self.angle)[0] * direction
+		yDir = self.speed * getDirection(self.angle)[1] * direction
 
-	def checkSpeed(self) :
-		if self.curSpeed < -self.maxSpeed :
-			self.curSpeed = -self.maxSpeed
-		elif self.curSpeed > self.maxSpeed :
-			self.curSpeed = self.maxSpeed
+		colliding = False
+	
+		for square in self.environment.objects :
+			if inSquare(self.x + xDir, self.y + yDir, square[0], square[1], self.environment.objectWidth) :
+				colliding = True
 
-	def loseSpeed(self) :
-		zeroSpeedDir = 0
-
-		if self.curSpeed > 0 :
-			zeroSpeedDir = -1
-		else :
-			zeroSpeedDir = 1
-
-		self.curSpeed += zeroSpeedDir * self.speedLoss * self.elapsed * self.timeCoeff
-
-		epsilon = 0.01
-
-		if math.fabs(self.curSpeed) < epsilon :
-			self.curSpeed = 0
-
-	def update(self) :
-
-		self.elapsed = pygame.time.get_ticks() - self.lastFrame
-		self.lastFrame = pygame.time.get_ticks()
-
-		xSpeed = getDirection(self.angle)[0] * self.curSpeed * self.elapsed * self.timeCoeff
-		ySpeed = getDirection(self.angle)[1] * self.curSpeed * self.elapsed * self.timeCoeff
-		
-		collide = False
-
-		for obstacle in self.environment.objects :
-			if distance(self.x + xSpeed, self.y + ySpeed, obstacle[0], obstacle[1]) < self.environment.objectWidth/2 + self.radius :
-				collide = True
-				break
-
-		if collide :
-			self.curSpeed = 0
-
-		else :
-			self.x += xSpeed
-			self.y += ySpeed
-			self.loseSpeed()
+		if not(colliding) :
+			self.x += xDir
+			self.y += yDir
 
 	def learn(self) :
 		self.ia.learn()

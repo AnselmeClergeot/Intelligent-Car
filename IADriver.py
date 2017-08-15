@@ -17,13 +17,16 @@ class IADriver :
 			maxAction = max(prediction)
 			index = prediction.index(maxAction)
 
+			if maxAction < 0.2 :
+				continue
+
 			if index == 0 :
 				self.car.turn("left")
 			elif index == 1 :
 				self.car.turn("right")
 			elif index == 2 :
-				self.car.accelerate()
+				self.car.go(1)
 			else :
-				self.car.decelerate()
+				self.car.go(-1)
 
 			del prediction[index]

@@ -28,14 +28,16 @@ while opened :
 
 	keys = pygame.key.get_pressed()
 
+	if keys[K_UP] :
+		multiplat.go(1)
+	if keys[K_DOWN] :
+		multiplat.go(-1)
 	if keys[K_LEFT] :
 		multiplat.turn("left")
 	if keys[K_RIGHT] :
 		multiplat.turn("right")
-	if keys[K_UP] :
-		multiplat.accelerate()
-	if keys[K_DOWN] :
-		multiplat.decelerate()
+
+
 	if keys[K_s] :
 		learning = True
 		iaActive = False
@@ -45,8 +47,6 @@ while opened :
 
 	if pygame.mouse.get_pressed()[0] :
 		environment.addObject(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-
-	multiplat.update()
 
 	if learning :
 		multiplat.learn()
