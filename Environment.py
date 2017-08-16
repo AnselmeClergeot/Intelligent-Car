@@ -8,14 +8,23 @@ class Environment :
 		self.objectWidth = 20
 		self.objectColor = pygame.Color("green")
 
-		self.objects = []
+		self.mapWidth = 100
+
+		self.grid = []
+
+		for i in range(self.mapWidth) :
+			self.grid.append([0] * self.mapWidth)
+
 
 	def addObject(self, x, y) :
-		self.objects.append((x, y))
+		self.grid[int(y) // self.objectWidth][int(x) // self.objectWidth] = 1
 
-	def reset(self) :
-		self.objects = []
+	def collide(self, x, y) :
+		return self.grid[int(y) // self.objectWidth][int(x) // self.objectWidth] == 1
 
 	def draw(self, window) :
-		for coord in self.objects :
-			pygame.draw.rect(window, self.objectColor, (coord[0] - self.objectWidth/2, coord[1] - self.objectWidth/2, self.objectWidth, self.objectWidth))
+
+		for y in range(self.mapWidth) :
+			for x in range(self.mapWidth) :
+				if self.grid[y][x] == 1 :
+					pygame.draw.rect(window, self.objectColor, (x * self.objectWidth, y * self.objectWidth, self.objectWidth, self.objectWidth))

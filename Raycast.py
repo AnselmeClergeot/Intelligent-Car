@@ -10,7 +10,7 @@ class Raycast :
 		self.car = car
 		self.relativeAngle = relativeAngle
 		self.maxLength = 500
-		self.increment = 20
+		self.increment = 5
 
 		self.length = 0
 
@@ -28,9 +28,8 @@ class Raycast :
 			curX += dirX * self.increment
 			curY += dirY * self.increment
 
-			for obstacle in self.car.environment.objects :
-				if inSquare(curX, curY, obstacle[0], obstacle[1], self.car.environment.objectWidth) :
-					self.length = distance(self.x, self.y, curX, curY)
-					return
+			if self.car.environment.collide(curX, curY) :
+				self.length = distance(self.x, self.y, curX, curY)
+				return
 
 			pygame.draw.rect(window, pygame.Color("blue"), (curX, curY, 2, 2))

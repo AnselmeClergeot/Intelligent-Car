@@ -7,7 +7,7 @@ from pygame.locals import *
 class NetworkInterface :
 	def __init__(self, car) :
 		self.car = car
-		self.NN = Neural_Network(car.sensorsNb, 10, 4)
+		self.NN = Neural_Network(car.sensorsNb + 1, 7, 4)
 
 	def learn(self) :
 	
@@ -26,8 +26,7 @@ class NetworkInterface :
 		if keys[K_DOWN] :
 			outputs[3] = 1
 
-		for i in range(100) :
-			self.NN.backward(inputs, outputs, 0.2)
+		self.NN.backward(inputs, outputs, 0.2)
 
 	def getPrediction(self) :
 		return self.NN.forward(self.getInputs())
@@ -36,6 +35,8 @@ class NetworkInterface :
 		inputs = []
 	
 		for ray in self.car.sensors :
-			inputs.append(ray.length/ray.maxLength)
+		 	inputs.append(ray.length/ray.maxLength)
+
+		inputs.append(self.car.curSpeed)
 		
 		return inputs

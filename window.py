@@ -8,7 +8,6 @@ from Environment import *
 pygame.init()
 
 window = pygame.display.set_mode((800, 700))
-pygame.key.set_repeat(1, 1)
 opened = True
 
 environment = Environment()
@@ -23,30 +22,30 @@ while opened :
 		if event.type == QUIT :
 			opened = False
 		elif event.type == KEYDOWN :
-			if event.key == K_r :
-				environment.reset()	
+			if event.key == K_s :
+				learning = not(learning)
+				iaActive = False
+				print(learning)
+			elif event.key == K_d :
+				iaActive = not(iaActive)
+				learning= False
+
 
 	keys = pygame.key.get_pressed()
 
 	if keys[K_UP] :
-		multiplat.go(1)
+		multiplat.accelerate()
 	if keys[K_DOWN] :
-		multiplat.go(-1)
+		multiplat.decelerate()
 	if keys[K_LEFT] :
 		multiplat.turn("left")
 	if keys[K_RIGHT] :
 		multiplat.turn("right")
 
-
-	if keys[K_s] :
-		learning = True
-		iaActive = False
-	if keys[K_d] :
-		iaActive = True
-		learning = False
-
 	if pygame.mouse.get_pressed()[0] :
 		environment.addObject(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+
+	multiplat.update()
 
 	if learning :
 		multiplat.learn()
