@@ -10,9 +10,9 @@ class Raycast :
 		self.car = car
 		self.relativeAngle = relativeAngle
 		self.maxLength = 500
-		self.increment = 5
+		self.increment = 10
 
-		self.length = 0
+		self.length = 1
 
 	def updateAndDraw(self, window) :
 		
@@ -33,3 +33,6 @@ class Raycast :
 				return
 
 			pygame.draw.rect(window, pygame.Color("blue"), (curX, curY, 2, 2))
+
+		self.length = distance(self.x, self.y, curX, curY)
+

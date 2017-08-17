@@ -13,11 +13,13 @@ class Car :
 		self.radius = 5
 		self.angle = 0
 		self.turnSpeed = 0.2
-		self.acceleration = 0.0005
-		self.sensorsNb = 7
+		self.acceleration = 0.001
+		self.sensorsNb = 31
 		self.visionAngle = 130
 		self.curSpeed = 0
-		self.maxSpeed = 0.8
+		self.maxSpeed = 0.3
+		self.speedLoss = 0.0005
+		self.learning = False
 
 		self.environment = environment
 
@@ -26,10 +28,13 @@ class Car :
 		self.lastFrame = 0
 		self.elapsed = 0
 
-		for angle in xrange(-self.visionAngle/2, self.visionAngle/2 + 1, self.visionAngle / (self.sensorsNb - 1)) :
-			self.sensors.append(Raycast(self, angle))
+		for i in range(self.sensorsNb) :
+			self.sensors.append(Raycast(self, (i - self.sensorsNb/2) * (self.visionAngle / self.sensorsNb)))
 		
 		self.ia = IADriver(self)
+
+	def setLearning(self, learning) :
+		self.learning = learning	
 
 	def driveSelf(self) :
 		self.ia.driveSelf()
@@ -53,22 +58,27 @@ class Car :
 		if self.curSpeed > self.maxSpeed :
 			self.curSpeed = self.maxSpeed
 
-	def decelerate(self) :
-		self.curSpeed -= self.acceleration * self.elapsed
-		if self.curSpeed < -self.maxSpeed :
-			self.curSpeed = -self.maxSpeed
-
-		
 	def update(self) :
+		
 		self.elapsed = pygame.time.get_ticks() - self.lastFrame
 		self.lastFrame = pygame.time.get_ticks()
 
 		xDir = self.curSpeed * getDirection(self.angle)[0] * self.elapsed
 		yDir = self.curSpeed * getDirection(self.angle)[1] * self.elapsed
 
+		self.curSpeed -= self.speedLoss * self.elapsed
+
+		if self.curSpeed < 0 :
+			self.curSpeed = 0
+
 		if not(self.environment.collide(self.x + xDir, self.y + yDir)) :
 			self.x += xDir
 			self.y += yDir
 
-	def learn(self) :
-		self.ia.learn()
+		else :
+			self.curSpeed = 0
+			self.learning = False
+
+	def learnExample(self) :
+		if self.learning :
+			self.ia.learnExample()

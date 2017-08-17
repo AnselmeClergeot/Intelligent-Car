@@ -5,10 +5,10 @@ import pygame
 class Environment :
 	
 	def __init__(self) :
-		self.objectWidth = 20
+		self.objectWidth = 10
 		self.objectColor = pygame.Color("green")
 
-		self.mapWidth = 100
+		self.mapWidth = 90
 
 		self.grid = []
 
@@ -17,10 +17,24 @@ class Environment :
 
 
 	def addObject(self, x, y) :
-		self.grid[int(y) // self.objectWidth][int(x) // self.objectWidth] = 1
+
+		for i in range(2) :
+			for j in range(2) :
+				self.grid[int(y) // self.objectWidth + i][int(x) // self.objectWidth + j] = 1
+
+	def reset(self) :
+		for y in range(self.mapWidth) :
+			for x in range(self.mapWidth) :
+				self.grid[y][x] = 0
 
 	def collide(self, x, y) :
-		return self.grid[int(y) // self.objectWidth][int(x) // self.objectWidth] == 1
+		yCoord = int(y) // self.objectWidth
+		xCoord = int(x) // self.objectWidth
+	
+		if yCoord >= self.mapWidth or xCoord >= self.mapWidth or xCoord < 0 or yCoord < 0 :
+			return False
+
+		return self.grid[yCoord][xCoord] == 1
 
 	def draw(self, window) :
 

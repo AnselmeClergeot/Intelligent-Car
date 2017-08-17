@@ -14,7 +14,6 @@ environment = Environment()
 multiplat = Car(environment)
 tutorial = pygame.image.load("tutorial.png").convert()
 
-learning = False
 iaActive = False
 
 while opened :
@@ -23,20 +22,18 @@ while opened :
 			opened = False
 		elif event.type == KEYDOWN :
 			if event.key == K_s :
-				learning = not(learning)
+				multiplat.setLearning(not(multiplat.learning))
 				iaActive = False
-				print(learning)
 			elif event.key == K_d :
 				iaActive = not(iaActive)
-				learning= False
-
+				multiplat.setLearning(False)
+			elif event.key == K_r :
+				environment.reset()
 
 	keys = pygame.key.get_pressed()
 
 	if keys[K_UP] :
 		multiplat.accelerate()
-	if keys[K_DOWN] :
-		multiplat.decelerate()
 	if keys[K_LEFT] :
 		multiplat.turn("left")
 	if keys[K_RIGHT] :
@@ -47,13 +44,12 @@ while opened :
 
 	multiplat.update()
 
-	if learning :
-		multiplat.learn()
-	
+	multiplat.learnExample()
+
 	if iaActive :
 		multiplat.driveSelf()
 
-	pygame.draw.rect(window, pygame.Color("black"), (0, 0, 800, 700))	
+	pygame.draw.rect(window, pygame.Color("black"), (0, 0, 800, 700))
 
 	environment.draw(window)
 	multiplat.draw(window)
