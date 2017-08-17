@@ -14,7 +14,7 @@ class Car :
 		self.angle = 0
 		self.turnSpeed = 0.2
 		self.acceleration = 0.001
-		self.sensorsNb = 31
+		self.sensorsNb = 9
 		self.visionAngle = 130
 		self.curSpeed = 0
 		self.maxSpeed = 0.3

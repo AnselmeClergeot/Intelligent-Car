@@ -5,6 +5,13 @@ import math
 def getDirection(deg) :
 	return math.cos(degToRad(deg)), math.sin(degToRad(deg))
 
+def getDirectionBetween(startX, startY, endX, endY) :
+	dist = distance(startX, startY, endX, endY)
+	if dist == 0 :
+		return (0, 0)
+
+	return (endX - startX) / dist, (endY - startY) / dist
+
 def degToRad(deg) :
 	return 2 * math.pi / 360 * deg
 	

@@ -10,7 +10,7 @@ class Raycast :
 		self.car = car
 		self.relativeAngle = relativeAngle
 		self.maxLength = 500
-		self.increment = 10
+		self.increment = 5
 
 		self.length = 1
 

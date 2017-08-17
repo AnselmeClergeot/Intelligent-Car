@@ -41,6 +41,8 @@ while opened :
 
 	if pygame.mouse.get_pressed()[0] :
 		environment.addObject(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+	else :
+		environment.stopDrawing()
 
 	multiplat.update()
 

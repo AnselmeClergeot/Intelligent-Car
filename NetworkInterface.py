@@ -7,7 +7,7 @@ from pygame.locals import *
 class NetworkInterface :
 	def __init__(self, car) :
 		self.car = car
-		self.NN = Neural_Network(car.sensorsNb + 1, 100, 3)
+		self.NN = Neural_Network(car.sensorsNb, 30, 3)
 		self.trainingSet = []
 		self.iterationsNb = 50
 
@@ -25,8 +25,6 @@ class NetworkInterface :
 		for ray in self.car.sensors :
 		 	inputs.append(1 - (ray.length/ray.maxLength))
 
-		inputs.append(self.car.curSpeed * 1.25)
-		
 		return inputs
 
 	def getOutputs(self) :
