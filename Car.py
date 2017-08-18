@@ -14,8 +14,8 @@ class Car :
 		self.angle = 0
 		self.turnSpeed = 0.2
 		self.acceleration = 0.001
-		self.sensorsNb = 9
-		self.visionAngle = 130
+		self.sensorsNb = 31
+		self.visionAngle = 180
 		self.curSpeed = 0
 		self.maxSpeed = 0.3
 		self.speedLoss = 0.0005
@@ -29,7 +29,7 @@ class Car :
 		self.elapsed = 0
 
 		for i in range(self.sensorsNb) :
-			self.sensors.append(Raycast(self, (i - self.sensorsNb/2) * (self.visionAngle / self.sensorsNb)))
+			self.sensors.append(Raycast(self, (i - self.sensorsNb/2) * (self.visionAngle / (self.sensorsNb - 1))))
 		
 		self.ia = IADriver(self)
 

@@ -7,9 +7,9 @@ from pygame.locals import *
 class NetworkInterface :
 	def __init__(self, car) :
 		self.car = car
-		self.NN = Neural_Network(car.sensorsNb, 30, 3)
+		self.NN = Neural_Network(car.sensorsNb, 50, 3)
 		self.trainingSet = []
-		self.iterationsNb = 50
+		self.iterationsNb = 1
 
 	def learnExample(self) :
 	
