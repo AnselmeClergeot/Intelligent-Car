@@ -5,16 +5,15 @@ import pygame
 from pygame.locals import *
 
 class NetworkInterface :
+
 	def __init__(self, car) :
+
 		self.car = car
 		self.NN = Neural_Network(car.sensorsNb, 50, 3)
 		self.trainingSet = []
-		self.iterationsNb = 1
 
 	def learnExample(self) :
-	
-		for i in range(self.iterationsNb) :
-				self.NN.backward(self.getInputs(), self.getOutputs(), 0.2)
+		self.NN.backward(self.getInputs(), self.getOutputs(), 0.2)
 
 	def getPrediction(self) :
 		return self.NN.forward(self.getInputs())

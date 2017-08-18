@@ -15,24 +15,20 @@ class Car :
 		self.turnSpeed = 0.2
 		self.acceleration = 0.001
 		self.sensorsNb = 31
-		self.visionAngle = 180
+		self.visionAngle = 120
 		self.curSpeed = 0
 		self.maxSpeed = 0.3
 		self.speedLoss = 0.0005
 		self.learning = False
-
 		self.environment = environment
-
-		self.sensors = []
-
 		self.lastFrame = 0
 		self.elapsed = 0
+		self.sensors = []
+		self.ia = IADriver(self)
 
 		for i in range(self.sensorsNb) :
 			self.sensors.append(Raycast(self, (i - self.sensorsNb/2) * (self.visionAngle / (self.sensorsNb - 1))))
 		
-		self.ia = IADriver(self)
-
 	def setLearning(self, learning) :
 		self.learning = learning	
 
@@ -55,6 +51,7 @@ class Car :
 
 	def accelerate(self) :
 		self.curSpeed += self.acceleration * self.elapsed
+
 		if self.curSpeed > self.maxSpeed :
 			self.curSpeed = self.maxSpeed
 

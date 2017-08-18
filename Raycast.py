@@ -11,11 +11,9 @@ class Raycast :
 		self.relativeAngle = relativeAngle
 		self.maxLength = 500
 		self.increment = 5
-
 		self.length = 1
 
 	def updateAndDraw(self, window) :
-		
 		dirX, dirY = getDirection(self.car.angle + self.relativeAngle)
 
 		self.x = self.car.x + getDirection(self.car.angle)[0] * self.car.radius
