@@ -5,17 +5,21 @@ from trigonometry import *
 
 class Environment :
 	
-	def __init__(self) :
+	def __init__(self, screenWidth, screenHeight) :
 
 		self.objectWidth = 5
-		self.objectColor = pygame.Color("green")
-		self.mapWidth = 180
+		self.objectColor = pygame.Color("white")
+		self.mapWidth = (screenWidth) // self.objectWidth + 1
+		self.mapHeight = (screenHeight) // self.objectWidth + 1
+
+		print(self.mapWidth)
+
 		self.lastCoord = [0, 0]
 		self.drawing = False
 		self.paintPrecision = 3
 		self.grid = []
 
-		for i in range(self.mapWidth) :
+		for i in range(self.mapHeight) :
 			self.grid.append([0] * self.mapWidth)
 	
 	def stopDrawing(self) :
@@ -48,21 +52,21 @@ class Environment :
 		self.lastCoord[1] = curY
 
 	def reset(self) :
-		for y in range(self.mapWidth) :
+		for y in range(self.mapHeight) :
 			for x in range(self.mapWidth) :
 				self.grid[y][x] = 0
 
 	def collide(self, x, y) :
-		yCoord = self.mapCoord(x, y)[1]
 		xCoord = self.mapCoord(x, y)[0]
-	
-		if yCoord >= self.mapWidth or xCoord >= self.mapWidth or xCoord < 0 or yCoord < 0 :
+		yCoord = self.mapCoord(x, y)[1]
+
+		if yCoord >= self.mapHeight or xCoord >= self.mapWidth or xCoord < 0 or yCoord < 0 :
 			return False
 
 		return self.grid[yCoord][xCoord] == 1
 
 	def draw(self, window) :
-		for y in range(self.mapWidth) :
+		for y in range(self.mapHeight) :
 			for x in range(self.mapWidth) :
 				if self.grid[y][x] == 1 :
 					pygame.draw.rect(window, self.objectColor, (x * self.objectWidth, y * self.objectWidth, self.objectWidth, self.objectWidth))

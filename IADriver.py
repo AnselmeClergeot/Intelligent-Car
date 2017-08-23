@@ -8,7 +8,7 @@ class IADriver :
 
 		self.car = car
 		self.interface = NetworkInterface(car)
-		self.minDecision = 0.3
+		self.minDecision = 0.5
 	
 	def learnExample(self) :
 		self.interface.learnExample()

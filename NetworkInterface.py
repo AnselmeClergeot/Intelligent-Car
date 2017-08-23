@@ -9,11 +9,13 @@ class NetworkInterface :
 	def __init__(self, car) :
 
 		self.car = car
-		self.NN = Neural_Network(car.sensorsNb, 50, 3)
+		self.NN = Neural_Network(car.sensorsNb, 30, 3)
 		self.trainingSet = []
+		self.iterationNb = 50
 
 	def learnExample(self) :
-		self.NN.backward(self.getInputs(), self.getOutputs(), 0.2)
+		for i in range(self.iterationNb) :
+			self.NN.backward(self.getInputs(), self.getOutputs(), 0.2)
 
 	def getPrediction(self) :
 		return self.NN.forward(self.getInputs())

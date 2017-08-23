@@ -14,10 +14,10 @@ class Car :
 		self.angle = 0
 		self.turnSpeed = 0.2
 		self.acceleration = 0.001
-		self.sensorsNb = 31
+		self.sensorsNb = 25
 		self.visionAngle = 120
 		self.curSpeed = 0
-		self.maxSpeed = 0.3
+		self.maxSpeed = 0.2
 		self.speedLoss = 0.0005
 		self.learning = False
 		self.environment = environment
@@ -25,6 +25,7 @@ class Car :
 		self.elapsed = 0
 		self.sensors = []
 		self.ia = IADriver(self)
+		self.color = "purple"
 
 		for i in range(self.sensorsNb) :
 			self.sensors.append(Raycast(self, (i - self.sensorsNb/2) * (self.visionAngle / (self.sensorsNb - 1))))
@@ -36,7 +37,7 @@ class Car :
 		self.ia.driveSelf()
 
 	def draw(self, window) :
-		pygame.draw.circle(window, pygame.Color("white"), (int(self.x), int(self.y)), self.radius)
+		pygame.draw.circle(window, pygame.Color(self.color), (int(self.x), int(self.y)), self.radius)
 		
 		for ray in self.sensors :
 			ray.updateAndDraw(window)
@@ -74,7 +75,6 @@ class Car :
 
 		else :
 			self.curSpeed = 0
-			self.learning = False
 
 	def learnExample(self) :
 		if self.learning :

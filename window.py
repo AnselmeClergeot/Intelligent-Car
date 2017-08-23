@@ -7,10 +7,13 @@ from Environment import *
 
 pygame.init()
 
-window = pygame.display.set_mode((800, 700))
+windowWidth = 1300
+windowHeight = 700
+
+window = pygame.display.set_mode((windowWidth, windowHeight))
 opened = True
 
-environment = Environment()
+environment = Environment(1300, 700)
 multiplat = Car(environment)
 iaActive = False
 
@@ -49,7 +52,7 @@ while opened :
 	if iaActive :
 		multiplat.driveSelf()
 
-	pygame.draw.rect(window, pygame.Color("black"), (0, 0, 800, 700))
+	pygame.draw.rect(window, pygame.Color("black"), (0, 0, windowWidth, windowHeight))
 	environment.draw(window)
 	multiplat.draw(window)
 
